@@ -1,0 +1,66 @@
+#  _______ __                      _______ _______ _______
+# |     __|  |--.---.-.----.-----.|    |  |    ___|_     _|
+# |__     |     |  _  |   _|  _  ||       |    ___| |   |
+# |_______|__|__|___._|__| |   __||__|____|_______| |___|
+#                          |__|
+
+#       S h a r p N E T - https://docs.sharpnet.sdac
+
+site_name: SharpNET
+
+theme:
+  name: material
+
+  # Font settings
+  font:
+    text: Roboto
+    code: "Roboto Mono"
+
+  # Reading direction left-to-right
+  direction: ltr
+  #direction: rtl
+
+  palette:
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+      primary: lime
+      accent: green
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+      primary: lime
+      accent: light green
+  # features:
+  #   - header.autohide
+extra:
+  generator: false
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - footnotes
+  - pymdownx.snippets
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.mark
+  - pymdownx.tilde
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.keys
+  - pymdownx.smartsymbols
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+      clickable_checkbox: true
+  - toc:
+      permalink: true
