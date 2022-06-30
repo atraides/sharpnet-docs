@@ -27,8 +27,8 @@ theme:
       toggle:
         icon: material/weather-night
         name: Switch to dark mode
-      primary: lime
-      accent: green
+      primary: amber
+      accent: deep orange
 
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
@@ -36,8 +36,8 @@ theme:
       toggle:
         icon: material/weather-sunny
         name: Switch to light mode
-      primary: green
-      accent: light green
+      primary: amber
+      accent: deep orange
   # features:
   #   - header.autohide
 extra:
