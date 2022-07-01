@@ -6,27 +6,36 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
 
 1. Boot to a live environment
 2. Enable ssh access
+
     ```sh
     passwd
     # There is no current password.
     sudo apt install --yes openssh-server vim
     ```
+
 3. Install required packages
+
     ```sh
     sudo -i
     apt install --yes debootstrap gdisk zfsutils-linux
     systemctl stop zed
     ```
+
 4. Select disks for the root pool
+
     ```sh
     export DISK1="/dev/disk/by-id/wwn-0x50014ee65d5560f6"
     export DISK2="/dev/disk/by-id/wwn-0x50014ee6080048c6"
     ```
+
 5. Turn off swap
+
     ```sh
     swapoff --all
     ```
+
 6. If re-using disks from an old array, format them
+
     ```sh
     apt install --yes mdadm
 
@@ -40,12 +49,16 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
     # For an array using a partition (e.g. a swap partition per this HOWTO):
     mdadm --zero-superblock --force ${DISK1}-part2
     ```
+
 7. Clear the partition table
+
     ```sh
     sgdisk --zap-all $DISK1
     sgdisk --zap-all $DISK2
     ```
+
 8. Create bootloader partitions
+
     ```sh
     sgdisk     -n1:1M:+512M   -t1:EF00 $DISK1
     sgdisk     -n1:1M:+512M   -t1:EF00 $DISK2
@@ -53,22 +66,30 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
     # For legacy (BIOS) booting:
     # sgdisk -a1 -n5:24K:+1000K -t5:EF02 $DISK
     ```
+
 9. Create swap partitions
+
     ```sh
     sgdisk     -n2:0:+4G    -t2:FD00 $DISK1
     sgdisk     -n2:0:+4G    -t2:FD00 $DISK2
     ```
+
 10. Create boot pool partitions
+
     ```sh
     sgdisk     -n3:0:+2G      -t3:BE00 $DISK1
     sgdisk     -n3:0:+2G      -t3:BE00 $DISK2
     ```
+
 11. Create root pool partitions
+
     ```sh
     sgdisk     -n4:0:0        -t4:BF00 $DISK1
     sgdisk     -n4:0:0        -t4:BF00 $DISK2
     ```
+
 12. Create the boot pool
+
     ```sh
     zpool create \
     -o ashift=12 \
@@ -87,7 +108,9 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
     ${DISK1}-part3 \
     ${DISK2}-part3
     ```
+
 13. Create the root pool
+
     ```sh
     zpool create \
     -o ashift=12 \
@@ -105,11 +128,14 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
 ## System installation
 
 1. Create filesystem datasets
+
     ```sh
     zfs create -o canmount=off -o mountpoint=none rpool/ROOT
     zfs create -o canmount=off -o mountpoint=none bpool/BOOT
     ```
+
 2. Create filesystem datasets for root and boot
+
     ```sh
     UUID=$(dd if=/dev/urandom bs=1 count=100 2>/dev/null | tr -dc 'a-z0-9' | cut -c-6)
 
@@ -119,7 +145,9 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
 
     zfs create -o mountpoint=/boot bpool/BOOT/ubuntu_$UUID
     ```
+
 3. Create datasets
+
     ```sh
     zfs create -o com.ubuntu.zsys:bootfs=no -o canmount=off \
         rpool/ROOT/ubuntu_$UUID/usr
@@ -136,7 +164,9 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
         rpool/USERDATA/root_$UUID
     chmod 700 /mnt/root
     ```
+
 4. Create additional datasets
+
     ```sh
     zfs create rpool/ROOT/ubuntu_$UUID/var/cache
     zfs create rpool/ROOT/ubuntu_$UUID/var/lib/nfs
@@ -149,17 +179,23 @@ Original documentation [here](https://openzfs.github.io/openzfs-docs/Getting%20S
     rpool/ROOT/ubuntu_$UUID/tmp
     chmod 1777 /mnt/tmp
     ```
+
 5. Mount tmpfs at /run
+
     ```sh
     mkdir /mnt/run
     mount -t tmpfs tmpfs /mnt/run
     mkdir /mnt/run/lock
     ```
+
 6. Install the minimal system
+
     ```sh
     debootstrap jammy /mnt
     ```
+
 7. Copy in the zpool.cache
+
     ```sh
     mkdir /mnt/etc/zfs
     cp /etc/zfs/zpool.cache /mnt/etc/zfs/
