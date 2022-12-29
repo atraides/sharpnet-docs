@@ -59,7 +59,7 @@ Create a new **Symlink** in your Startup folder for the **GPG Agent** and the **
 "C:\Program Files (x86)\GnuPG\bin\gpg-connect-agent.exe" /bye
 ```
 
-```text title="C:\Users\sid\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\wsl-ssh-pageant.lnk"
+```text title="%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\wsl-ssh-pageant.lnk"
 C:\Tools\wsl-ssh-pagent\wsl-ssh-pageant-amd64-gui.exe -force -systray -verbose -winssh winssh-pageant
 ```
 
