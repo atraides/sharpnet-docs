@@ -344,3 +344,5 @@ gpg --card-status
 # References
 
 [](https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP)
+[](https://developers.yubico.com/PGP/SSH_authentication/Windows.html)
+[](https://www.antirandom.com/blog/2020/03/24/ssh-on-windows-with-private-key-on-yubikey/)
