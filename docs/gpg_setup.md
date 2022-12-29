@@ -47,7 +47,7 @@ Please select what kind of key you want:
 Your selection? 9
 ```
 
-In the next step we are going to specify the "length" of the key. For a newer elliptic curve the recommended value is **1** (Curve 25519). For the RSA keys the length depends on the key type.
+In the next step we are going to specify the "length" of the key. For a newer elliptic curve the recommended value is **1 (Curve 25519)**. For the RSA keys the length depends on the key type.
 
 - For a YubiKey NEO, select **2048**
 - For a YubiKey 4 or 5, enter **4096**
@@ -66,7 +66,7 @@ Please select which elliptic curve you want:
 Your selection? 1
 ```
 
-The next question is about the expiration of our new key. The default value is **unlimited** however, for production usage it recommended to specify this value.
+The next question is about the expiration of our new key. The default value is **unlimited** however, for production use it is recommended to specify this value.
 
 ```shell
 Please specify how long the key should be valid.
