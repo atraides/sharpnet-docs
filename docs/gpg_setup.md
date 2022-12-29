@@ -18,6 +18,64 @@ gpg --full-gen-key --expert
   - macOS: [GPG Suite](https://gpgtools.org/gpgsuite.html)
   - Linux: Pre-installed on most distributions
 
+### Install and configure GPG4Win
+
+!!! notice
+    Before you begin make sure [GPG4Win](https://www.gpg4win.org/download.html) is installed on your Windows box.
+
+
+#### Start GPG
+
+```
+gpg-connect-agent /bye
+```
+
+#### Enable SSH support for GPG
+
+```cfg title="%APPDATA%\gnupg\gpg-agent.conf"
+enable-putty-support
+enable-ssh-support
+use-standard-socket
+default-cache-ttl 600
+max-cache-ttl 7200
+```
+
+#### Restart GPG
+
+```shell
+gpg-connect-agent killagent /bye
+gpg-connect-agent /bye
+```
+
+#### Download wsl-ssh-pageant
+
+Download [WSL-SSH-pageant](https://github.com/benpye/wsl-ssh-pageant/releases/tag/20201121.2) and save it locally on your machine. This will be used to connet GPG with the SSH on Windows 10/11.
+
+#### Automate GPG and WSL-SSH-pageant
+
+Create a new **Symlink** in your Startup folder for the **GPG Agent** and the **WSL-SSH-pageant**.
+
+```text title="%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG Connect.lnk"
+"C:\Program Files (x86)\GnuPG\bin\gpg-connect-agent.exe" /bye
+```
+
+```text title="C:\Users\sid\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\wsl-ssh-pageant.lnk"
+C:\Tools\wsl-ssh-pagent\wsl-ssh-pageant-amd64-gui.exe -force -systray -verbose -winssh winssh-pageant
+```
+
+Finally set an environment varible for the SSH Agent Socket using [this guide](https://phoenixnap.com/kb/windows-set-environment-variable#ftoc-heading-4)
+
+```ini
+SSH_AUTH_SOCK="\\.\pipe\winssh-pageant"
+```
+
+![ENV_SSH_AUTH_SOCK](https://atraides.github.io/sharpnet-docs/images/ENV_SSH_AUTH_SOCK.png)
+
+#### Restart and Test the SSH Agent connectivity
+
+
+
+
 ### Generating Keys externally
 
 !!! warning
@@ -281,3 +339,8 @@ Finally execute ```save``` to exit gpg and finalize your changes. You can verify
 ```shell
 gpg --card-status
 ```
+
+
+# References
+
+[](https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP)
