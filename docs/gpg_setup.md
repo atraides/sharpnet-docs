@@ -28,13 +28,13 @@ It is strongly recommended that you to generate keys on an offline system, such 
 - When prompted to specify the key type, enter ```(9) ECC (sign and encrypt)``` and press Enter.
 - Specify the "size" of key you want to generate. Recommended is ```(1) Curve 25519```
 - Specify the expiration date of the key, and press Enter. Verify the expiration date when prompted.
-- Now enter your user information. 
+- Now enter your user information.
   - Enter your Real Name and press Enter. **Be sure to enter both your first and last name.**
   - Enter your Email Address and press Enter.
   - If desired, enter a Comment about this key, and press Enter.
 - Review the information you entered, make any changes if necessary.
 - If all information is correct, enter O (for Okay) and press Enter.
-- Enter your passphrase for the new key __(You will need this to move the key to your yubikey)__
+- Enter a passphrase for the new key
 
 !!! info
 While the key is being generated, move your mouse around or type on the keyboard to gain enough entropy.
