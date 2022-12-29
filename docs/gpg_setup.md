@@ -69,7 +69,7 @@ Finally set an environment varible for the SSH Agent Socket using [this guide](h
 SSH_AUTH_SOCK="\\.\pipe\winssh-pageant"
 ```
 
-![ENV_SSH_AUTH_SOCK](https://atraides.github.io/sharpnet-docs/images/ENV_SSH_AUTH_SOCK.png)
+![ENV_SSH_AUTH_SOCK](images/ENV_SSH_AUTH_SOCK.png)
 
 #### Restart and Test the SSH Agent connectivity
 
@@ -343,6 +343,6 @@ gpg --card-status
 
 # References
 
-[1](https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP)
-[2](https://developers.yubico.com/PGP/SSH_authentication/Windows.html)
-[3](https://www.antirandom.com/blog/2020/03/24/ssh-on-windows-with-private-key-on-yubikey/)
+- [](https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP)
+- [](https://developers.yubico.com/PGP/SSH_authentication/Windows.html)
+- [](https://www.antirandom.com/blog/2020/03/24/ssh-on-windows-with-private-key-on-yubikey/)
