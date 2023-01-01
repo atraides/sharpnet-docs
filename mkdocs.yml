@@ -9,10 +9,10 @@
 site_name: SharpNET
 
 extra_css:
-  - static/css/asciinema-player.css
+  - /static/css/asciinema-player.css
 
 extra_javascript:
-  - static/js/asciinema-player.min.js
+  - /static/js/asciinema-player.min.js
 
 plugins:
   - glightbox:

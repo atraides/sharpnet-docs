@@ -226,11 +226,11 @@ curl https://download.argon40.com/argon1.sh | bash
 
 <script>
   window.onload = function(){
-    AsciinemaPlayer.create('/sharpnet-docs/images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
+    AsciinemaPlayer.create('/images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
         poster: 'npt:1:23',
         rows: 10
     });
-    AsciinemaPlayer.create('/sharpnet-docs/images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
+    AsciinemaPlayer.create('/images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
         poster: 'npt:1:23',
         rows: 10
     });
