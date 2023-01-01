@@ -8,6 +8,16 @@
 
 site_name: SharpNET
 
+extra_css:
+  - stylesheets/asciinema-player.css
+
+extra_javascript:
+  - javascripts/asciinema-player.min.js
+
+plugins:
+  - search
+  - mkdocs-asciinema
+
 theme:
   name: material
 
@@ -64,3 +74,6 @@ markdown_extensions:
       clickable_checkbox: true
   - toc:
       permalink: true
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
