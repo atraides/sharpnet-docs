@@ -228,11 +228,11 @@ curl https://download.argon40.com/argon1.sh | bash
   window.onload = function(){
     AsciinemaPlayer.create('/images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
         poster: 'npt:1:23',
-        rows: 10
+        rows: 13
     });
     AsciinemaPlayer.create('/images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
         poster: 'npt:1:23',
-        rows: 10
+        rows: 13
     });
 }
 </script>
