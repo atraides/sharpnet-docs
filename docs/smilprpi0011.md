@@ -106,11 +106,11 @@ ansible-playbook -i inventory.yml --limit=smilprpi0011.sharpnet.sdac main.yml
 
 <script>
   window.onload = function(){
-    AsciinemaPlayer.create('/images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
+    AsciinemaPlayer.create('/sharpnet-docs/images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
         poster: 'npt:1:23',
         rows: 13
     });
-    AsciinemaPlayer.create('/images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
+    AsciinemaPlayer.create('/sharpnet-docs/images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
         poster: 'npt:1:23',
         rows: 13
     });
