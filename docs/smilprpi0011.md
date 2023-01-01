@@ -90,21 +90,29 @@ Once the system is booted up we have to run the **main** SharpNET Controller rol
     ssh smilprpi0011.sharpnet.sdac
     ```
 
+```shell
+ansible-playbook -i inventory.yml --limit=smilprpi0011.sharpnet.sdac main.yml
+```
+
+<div id="rpi-fail-asciinema" style="z-index: 1; position: relative; max-width: 100%;"></div>
+
 ???+ info
     If the playbook fails with the bellow error message about reloading the `step-ca` service, make sure the `yubikey` is connected to the raspberry.
     ```shell
     Unable to start service step-ca: A dependency job for step-ca.service failed.
     ```
 
-```shell
-ansible-playbook -i inventory.yml --limit=smilprpi0011.sharpnet.sdac main.yml
-```
+<div id="rpi-success-asciinema" style="z-index: 1; position: relative; max-width: 100%;"></div>
 
-<div id="unique-id-not-same-as-markdown-title" style="z-index: 1; position: relative; max-width: 100%;"></div>
 <script>
   window.onload = function(){
-    AsciinemaPlayer.create('/images/asciinema/548953.cast', document.getElementById('unique-id-not-same-as-markdown-title'), {
-        poster: 'npt:1:23'
+    AsciinemaPlayer.create('images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
+        poster: 'npt:1:23',
+        height: 15
+    });
+    AsciinemaPlayer.create('images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
+        poster: 'npt:1:23',
+        height: 15
     });
 }
 </script>
