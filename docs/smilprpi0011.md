@@ -13,57 +13,57 @@ First step is to create a new Ubuntu "installation" for our Raspberry System usi
 
 - Start **Raspberry Pi Imager**
 
-  ![Start the Imager](images/RPI-Imager/Start%20RPI%20Imager.png){ align=center loading=lazy }
+![Start the Imager](images/RPI-Imager/Start%20RPI%20Imager.png){ align=center loading=lazy }
 
 - Click "**CHOOSE OS**" and select "**Other general-purpose OS**"
 
-   ![Choose OS](images/RPI-Imager/RPi-Image-011.png){ align=center loading=lazy }
-   ![General-purpose OS](images/RPI-Imager/RPi-Image-014.png){ align=center loading=lazy }
+![Choose OS](images/RPI-Imager/RPi-Image-011.png){ align=center loading=lazy }
+![General-purpose OS](images/RPI-Imager/RPi-Image-014.png){ align=center loading=lazy }
 
 - Select "**Ubuntu**"
 
-   ![Ubuntu](images/RPI-Imager/RPi-Image-013.png){ align=center loading=lazy }
+![Ubuntu](images/RPI-Imager/RPi-Image-013.png){ align=center loading=lazy }
 
 - Select "**Ubuntu Server 22.04.X LTS (64-bit)**"
 
-   ![Ubuntu Server](images/RPI-Imager/RPi-Image-012.png){ align=center loading=lazy }
+![Ubuntu Server](images/RPI-Imager/RPi-Image-012.png){ align=center loading=lazy }
 
 - Click "**CHOOSE STORAGE**" and select your SD Card/Hard Disk
 
-   ![Choose Storage](images/RPI-Imager/RPi-Image-010.png){ align=center loading=lazy }
-   ![Choose MMC/HDD](images/RPI-Imager/RPi-Image-009.png){ align=center loading=lazy }
+![Choose Storage](images/RPI-Imager/RPi-Image-010.png){ align=center loading=lazy }
+![Choose MMC/HDD](images/RPI-Imager/RPi-Image-009.png){ align=center loading=lazy }
 
 - Click on the :fontawesome-solid-gear: icon
 
-   ![Click options](images/RPI-Imager/RPi-Image-001.png){ align=center loading=lazy }
+![Click options](images/RPI-Imager/RPi-Image-001.png){ align=center loading=lazy }
 
 - Change the system's hostname
 
-   ![Change hostname](images/RPI-Imager/RPi-Image-008.png){ align=center loading=lazy }
+![Change hostname](images/RPI-Imager/RPi-Image-008.png){ align=center loading=lazy }
 
 - Enable SSH and add your SSH public key
 
-   ![Enable SSH](images/RPI-Imager/RPi-Image-005.png){ align=center loading=lazy }
+![Enable SSH](images/RPI-Imager/RPi-Image-005.png){ align=center loading=lazy }
 
 - Set the install user and it's password
 
-   ![Set the install user](images/RPI-Imager/RPi-Image-007.png){ align=center loading=lazy }
+![Set the install user](images/RPI-Imager/RPi-Image-007.png){ align=center loading=lazy }
 
 - Set the locales and "**Save**"
 
-   ![Set locales](images/RPI-Imager/RPi-Image-006.png){ align=center loading=lazy }
+![Set locales](images/RPI-Imager/RPi-Image-006.png){ align=center loading=lazy }
 
 - Click on "**WRITE**"
 
-   ![Write to disk](images/RPI-Imager/RPi-Image-002.png){ align=center loading=lazy }
+![Write to disk](images/RPI-Imager/RPi-Image-002.png){ align=center loading=lazy }
 
 - Confirm the overwrite of **all data on the drive**
 
-   ![Confirm Overwrite](images/RPI-Imager/RPi-Image-004.png){ align=center loading=lazy }
+![Confirm Overwrite](images/RPI-Imager/RPi-Image-004.png){ align=center loading=lazy }
 
 - Wait for the Write process to finish
 
-   ![Finish](images/RPI-Imager/RPi-Image-000.png){ align=center loading=lazy }
+![Finish](images/RPI-Imager/RPi-Image-000.png){ align=center loading=lazy }
 
 ## Configuration
 
@@ -183,6 +183,15 @@ Jan 01 20:21:02 smilprpi0011 sh[3306]: 2023/01/01 20:21:02 X.509 Root Fingerprin
 Jan 01 20:21:02 smilprpi0011 sh[3306]: 2023/01/01 20:21:02 Serving HTTPS on :443 ...
 ```
 
+### Install the SharpNET Root and Intermediate CA
+
+```shell
+curl -LO http://smilpdch4000.sharpnet.sdac:32080/static/certs/sharpnet-root.crt
+curl -LO http://smilpdch4000.sharpnet.sdac:32080/static/certs/sharpnet-intermediate.crt
+sudo mv *.crt /usr/local/share/ca-certificates
+sudo update-ca-certificates
+```
+
 ### Configure CoreDNS
 
 #### Clone the CoreDNS
@@ -202,18 +211,28 @@ docker-compose up -d
 #### Test that the DNS server is working
 
 ```shell
-dig stepca.sharpnet.sdac @smilprpi0011.sharpnet.sdac
+❯ dig +noall +answer stepca.sharpnet.sdac @smilprpi0011.sharpnet.sdac
+stepca.sharpnet.sdac.   3600    IN      A       10.42.0.10
+```
+
+### (Optional) Install the Argon One "driver"
+
+!!! info
+    If the Raspberry case being used for the server is an [Argon One](https://www.argon40.com/products/argon-one-m-2-case-for-raspberry-pi-4) only then we should install this driver.
+
+```shell
+curl https://download.argon40.com/argon1.sh | bash
 ```
 
 <script>
   window.onload = function(){
     AsciinemaPlayer.create('/sharpnet-docs/images/asciinema/rpi0011-fail.cast', document.getElementById('rpi-fail-asciinema'), {
         poster: 'npt:1:23',
-        rows: 12
+        rows: 10
     });
     AsciinemaPlayer.create('/sharpnet-docs/images/asciinema/rpi0011-success.cast', document.getElementById('rpi-success-asciinema'), {
         poster: 'npt:1:23',
-        rows: 12
+        rows: 10
     });
 }
 </script>
