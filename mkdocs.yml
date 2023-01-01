@@ -9,14 +9,25 @@
 site_name: SharpNET
 
 extra_css:
-  - stylesheets/asciinema-player.css
+  - static/css/asciinema-player.css
 
 extra_javascript:
-  - javascripts/asciinema-player.min.js
+  - static/js/asciinema-player.min.js
 
 plugins:
-  - search
-  - mkdocs-asciinema
+  - glightbox:
+      touchNavigation: true
+      loop: false
+      effect: zoom
+      slide_effect: slide
+      width: 100%
+      height: auto
+      zoomable: true
+      draggable: true
+      skip_classes:
+        - custom-skip-class-name
+      auto_caption: false
+      caption_position: bottom
 
 theme:
   name: material
