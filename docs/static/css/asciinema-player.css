@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Roboto Mono NF";
+  src: url("/static/fonts/Roboto Mono Nerd Font Complete Windows Compatible.ttf") format("truetype");
+}
+
 .asciinema-player-wrapper {
   outline: none;
   height: 100%;
@@ -120,7 +125,7 @@
   border-style: solid;
   cursor: text;
   border-width: 0.75em;
-  font-family: Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols';
+  font-family: 'Roboto Mono NF', Consolas, Menlo, 'Bitstream Vera Sans Mono', monospace, 'Powerline Symbols';
 }
 .asciinema-terminal .line {
   letter-spacing: normal;
