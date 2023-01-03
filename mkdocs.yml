@@ -7,6 +7,8 @@
 #       S h a r p N E T - https://docs.sharpnet.sdac
 
 site_name: SharpNET
+repo_url: https://github.com/atraides/sharpnet-docs
+repo_name: atraides/sharpnet-docs
 
 extra_css:
   - /static/css/asciinema-player.css
@@ -31,6 +33,10 @@ plugins:
   - git-revision-date-localized:
       type: date
       enable_creation_date: true
+  - git-committers:
+      repository: atraides/sharpnet-docs
+      branch: main
+  - git-authors
 
 theme:
   name: material
