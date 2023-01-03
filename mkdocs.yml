@@ -28,6 +28,9 @@ plugins:
         - custom-skip-class-name
       auto_caption: false
       caption_position: bottom
+  - git-revision-date-localized:
+      type: date
+      enable_creation_date: true
 
 theme:
   name: material
