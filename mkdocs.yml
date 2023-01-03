@@ -37,7 +37,7 @@ theme:
 
   # Font settings
   font:
-    text: Roboto
+    text: "Roboto Condensed"
     code: "Roboto Mono"
 
   # Reading direction left-to-right
@@ -62,8 +62,9 @@ theme:
         name: Switch to light mode
       primary: amber
       accent: deep orange
-  # features:
-  #   - header.autohide
+  features:
+    - header.autohide
+    - content.code.copy
 extra:
   generator: false
 markdown_extensions:
@@ -78,6 +79,7 @@ markdown_extensions:
   - pymdownx.tilde
   - pymdownx.highlight:
       anchor_linenums: true
+  - pymdownx.inlinehilite
   - pymdownx.superfences
   - pymdownx.keys
   - pymdownx.smartsymbols
