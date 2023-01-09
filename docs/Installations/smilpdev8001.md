@@ -38,13 +38,13 @@ smilpdev8001_become_password: "Password choosen during install"
     If you see an error message about the Host key make sure to delete the old host key with ssh-keygen, then add the new Host key by logging to the system via SSH.
     ```shell
     ssh-keygen -f ~/.ssh/known_hosts -R "smilpdev8001.sharpnet.sdac"
-    ssh-keyscan "smilpdev8001.sharpnet.sdac" >> ~/.ssh/known_hosts
+    ssh-keyscan -H "smilpdev8001.sharpnet.sdac" >> ~/.ssh/known_hosts
     ```
 
 !!! warning
     This playbook usually runs for a long time. On average the execution takes between **20-25 minutes**.
 
 ```shell
-ansible-playbook -i inventory.yml -e target=smilpdev8001.sharpnet.sdac \
-  server_first_boot.yml
+ansible-playbook -i inventory.yml sharpnet.deployment.fresh_system \
+-e shncmd_target_host=smilpdev8001.sharpnet.sdac -e shncfg_reboot=true
 ```
