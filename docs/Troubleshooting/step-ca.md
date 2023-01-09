@@ -153,9 +153,12 @@ sudo sh -c "rm ${STEPPATH}/certs/*.crt"
 
 ### Download our root and intermediate certs
 
+!!! info
+    This is step is currently being moved to the Ansible role so this might become obsolete soon.
+
 ``` shell
-curl -fsSL http://smilpdch4000.sharpnet.sdac:32080/static/certs/sharpnet-root.crt -o - | sudo tee ${STEPPATH}/certs/root_ca.crt 2>&1 >/dev/null
-curl -fsSL http://smilpdch4000.sharpnet.sdac:32080/static/certs/sharpnet-intermediate.crt -o -| sudo tee ${STEPPATH}/certs/intermediate_ca.crt 2>&1 >/dev/null
+curl -fsSL https://webdav.sharpnet.sdac/static/certs/sharpnet-root.crt -o - | sudo tee ${STEPPATH}/certs/root_ca.crt 2>&1 >/dev/null
+curl -fsSL https://webdav.sharpnet.sdac/static/certs/sharpnet-intermediate.crt -o -| sudo tee ${STEPPATH}/certs/intermediate_ca.crt 2>&1 >/dev/null
 ```
 
 ### Remove the generated keys
@@ -221,7 +224,7 @@ sudo systemctl status step-ca
 
 ``` shell
 step ca bootstrap --ca-url="https://stepca.sharpnet.sdac" \
---fingerprint 37d6d9c639503c7178aeadddd201754ad3265822e562f73ac241b9af5a925360
+--fingerprint 37d6d9c639******************************************************
 ```
 
 #### Generate a test certificate for **localhost**
@@ -231,7 +234,7 @@ step ca certificate "localhost" localhost.crt localhost.key
 ```
 
 ``` text title='step ca certificate "localhost" localhost.crt localhost.key'
-✔ Provisioner: daniel@hagyarossy.hu (JWK) [kid: vx-rj1A3k59nDzdFmxBd2oehUFB6NFE8ThEY4Z5xayE]
+✔ Provisioner: daniel@hagyarossy.hu (JWK) [kid: vx-rj1A...xayE]
 Please enter the password to decrypt the provisioner key: 
 ✔ CA: https://stepca.sharpnet.sdac
 ✔ Certificate: localhost.crt
