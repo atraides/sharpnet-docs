@@ -51,7 +51,6 @@ theme:
   #direction: rtl
 
   palette:
-    # Palette toggle for automatic mode
     - media: "(prefers-color-scheme)"
       toggle:
         icon: material/brightness-auto
@@ -60,8 +59,8 @@ theme:
     # Palette toggle for light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
-      primary: amber
-      accent: deep orange
+      primary: blue grey
+      accent: teal
       toggle:
         icon: material/brightness-7
         name: Switch to dark mode
@@ -69,8 +68,8 @@ theme:
     # Palette toggle for dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
-      primary: amber
-      accent: deep orange
+      primary: blue grey
+      accent: teal
       toggle:
         icon: material/brightness-4
         name: Switch to system preference
