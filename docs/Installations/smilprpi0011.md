@@ -203,6 +203,128 @@ Please provide fan speeds for the following temperatures:
 Configuration updated.
 ```
 
+### Install PostgreSQL
+
+#### Add APT repository for PostgreSQL
+
+``` shell
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+```
+
+#### Install the PostgreSQL software
+
+``` shell
+sudo apt update -y && sudo apt install -y postgresql-14
+```
+
+#### Move the data directory to /srv
+
+??? info
+    Source: [https://fitodic.github.io/how-to-change-postgresql-data-directory-on-linux](https://fitodic.github.io/how-to-change-postgresql-data-directory-on-linux)
+
+``` shell
+sudo su - postgres
+```
+
+##### Check the location of the current `data_directory` and `config_file`
+
+``` shell
+psql
+```
+
+``` sql
+SHOW config_file;
+SHOW data_directory;
+```
+
+``` text
+               config_file               
+-----------------------------------------
+ /etc/postgresql/15/main/postgresql.conf
+(1 row)
+
+       data_directory        
+-----------------------------
+ /var/lib/postgresql/15/main
+(1 row)
+```
+
+##### Stop PostgreSQL
+
+``` shell
+sudo systemctl stop postgresql.service
+```
+
+##### Sync the data directory
+
+``` shell
+sudo rsync -av /var/lib/postgresql/15/main /srv/postgres
+```
+
+##### Edit the config file to reflect the location change
+
+``` shell
+sudo vim /etc/postgresql/15/main/postgresql.conf
+```
+
+``` text title="/etc/postgresql/15/main/postgresql.conf"
+👆 Rest of the file omitted...
+
+#------------------------------------------------------------------------------
+# FILE LOCATIONS
+#------------------------------------------------------------------------------
+
+# The default values of these variables are driven from the -D command-line
+# option or PGDATA environment variable, represented here as ConfigDir.
+
+data_directory = '/srv/postgres/main'   # use data in another directory
+                                        # (change requires restart)
+#hba_file = 'ConfigDir/pg_hba.conf'     # host-based authentication file
+                                        # (change requires restart)
+#ident_file = 'ConfigDir/pg_ident.conf' # ident configuration file
+👇 Rest of the file omitted...
+```
+
+##### Restart PostgreSQL and verify the change
+
+``` shell
+sudo systemctl start postgresql.service
+sudo systemctl status postgresql.service
+```
+
+``` shell
+sudo -iu postgres
+psql
+```
+
+``` sql
+SHOW data_directory;
+SHOW config_file;
+```
+
+``` text
+   data_directory   
+--------------------
+ /srv/postgres/main
+(1 row)
+
+postgres=# SHOW config_file;
+               config_file               
+-----------------------------------------
+ /etc/postgresql/15/main/postgresql.conf
+(1 row)
+```
+
+#### Configuring Streaming Replication
+
+``` shell
+sudo -iu postgres
+createuser repuser --replication -P
+```
+
+[https://narasimmantech.com/setting-up-postgresql-streaming-replication-for-high-availability-and-backup/](https://narasimmantech.com/setting-up-postgresql-streaming-replication-for-high-availability-and-backup/)
+
 <script>
   window.onload = function(){
     AsciinemaPlayer.create('/static/recordings/asciinema/smilprpi0011-config.cast', document.getElementById('rpi-success-asciinema'), {
