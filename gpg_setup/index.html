@@ -1,0 +1,1012 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href=".." rel="prev"/>
+<link href="../Installations/smilpdev8001/" rel="next"/>
+<link href="../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.0.5+insiders-4.28.1" name="generator"/>
+<title>How to setup GPG and SSH agent - SharpNET</title>
+<link href="../assets/stylesheets/main.c97aee8c.min.css" rel="stylesheet"/>
+<link href="../assets/stylesheets/palette.2505c338.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto Condensed";--md-code-font:"Roboto Mono"}</style>
+<link href="/static/css/asciinema-player.css" rel="stylesheet"/>
+<script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+<link href="../assets/stylesheets/glightbox.min.css" rel="stylesheet"/><style>
+            html.glightbox-open { overflow: initial; height: 100%; }
+            .gslide-title { margin-top: 0px; user-select: text; }
+            .gslide-desc { color: #666; user-select: text; }
+            .gslide-image img { background: white; }
+            
+                .gscrollbar-fixer { padding-right: 15px; }
+                .gdesc-inner { font-size: 0.75rem; }
+                body[data-md-color-scheme="slate"] .gdesc-inner { background: var(--md-default-bg-color);}
+                body[data-md-color-scheme="slate"] .gslide-title { color: var(--md-default-fg-color);}
+                body[data-md-color-scheme="slate"] .gslide-desc { color: var(--md-default-fg-color);}
+                </style><script src="../assets/javascripts/glightbox.min.js"></script></head>
+<body data-md-color-accent="" data-md-color-primary="" data-md-color-scheme="default" dir="ltr">
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#how-to-setup-gpg-and-ssh-agent">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="SharpNET" class="md-header__button md-logo" data-md-component="logo" href=".." title="SharpNET">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            SharpNET
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              How to setup GPG and SSH agent
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="" data-md-color-media="(prefers-color-scheme)" data-md-color-primary="" data-md-color-scheme="default" id="__palette_0" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9h-1.9M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69m-9.15 3.96h2.3L12 9l-1.15 3.65Z"></path></svg>
+</label>
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="teal" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="blue-grey" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+</label>
+<input aria-label="Switch to system preference" class="md-option" data-md-color-accent="teal" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="blue-grey" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_0" hidden="" title="Switch to system preference">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12c0-2.42-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69Z"></path></svg>
+</label>
+</form>
+<script>var media,input,key,value,palette=__md_get("__palette");if(palette&&palette.color){"(prefers-color-scheme)"===palette.color.media&&(media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']"),palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent"));for([key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+<div class="md-header__source">
+<a class="md-source" data-md-component="source" href="https://github.com/atraides/sharpnet-docs" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    atraides/sharpnet-docs
+  </div>
+</a>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="SharpNET" class="md-nav__button md-logo" data-md-component="logo" href=".." title="SharpNET">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+    SharpNET
+  </label>
+<div class="md-nav__source">
+<a class="md-source" data-md-component="source" href="https://github.com/atraides/sharpnet-docs" title="Go to repository">
+<div class="md-source__icon md-icon">
+<svg viewbox="0 0 448 512" xmlns="http://www.w3.org/2000/svg"><!--! Font Awesome Free 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"></path></svg>
+</div>
+<div class="md-source__repository">
+    atraides/sharpnet-docs
+  </div>
+</a>
+</div>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="..">
+<span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" data-md-toggle="toc" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+<span class="md-ellipsis">
+    
+  
+    How to setup GPG and SSH agent
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+<span class="md-ellipsis">
+    
+  
+    How to setup GPG and SSH agent
+  
+
+    
+  </span>
+</a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linux">
+<span class="md-ellipsis">
+      
+        Linux
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#windows">
+<span class="md-ellipsis">
+      
+        Windows
+      
+    </span>
+</a>
+<nav aria-label="Windows" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requirements">
+<span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#install-and-configure-gpg4win">
+<span class="md-ellipsis">
+      
+        Install and configure GPG4Win
+      
+    </span>
+</a>
+<nav aria-label="Install and configure GPG4Win" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#start-gpg">
+<span class="md-ellipsis">
+      
+        Start GPG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enable-ssh-support-for-gpg">
+<span class="md-ellipsis">
+      
+        Enable SSH support for GPG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#restart-gpg">
+<span class="md-ellipsis">
+      
+        Restart GPG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#download-wsl-ssh-pageant">
+<span class="md-ellipsis">
+      
+        Download wsl-ssh-pageant
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#automate-gpg-and-wsl-ssh-pageant">
+<span class="md-ellipsis">
+      
+        Automate GPG and WSL-SSH-pageant
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#restart-and-test-the-ssh-agent-connectivity">
+<span class="md-ellipsis">
+      
+        Restart and Test the SSH Agent connectivity
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generating-keys-externally">
+<span class="md-ellipsis">
+      
+        Generating Keys externally
+      
+    </span>
+</a>
+<nav aria-label="Generating Keys externally" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generate-a-new-gpg-signing-key">
+<span class="md-ellipsis">
+      
+        Generate a new GPG Signing key
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#add-a-new-gpg-authentication-key">
+<span class="md-ellipsis">
+      
+        Add a new GPG Authentication key
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#create-a-backup-of-your-key">
+<span class="md-ellipsis">
+      
+        Create a backup of your key
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#import-the-new-key-to-your-yubikey">
+<span class="md-ellipsis">
+      
+        Import the new key to your YubiKey
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" id="__nav_3" type="checkbox"/>
+<label aria-expanded="false" class="md-nav__link" for="__nav_3" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Installations
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Installations" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Installations
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Installations/smilpdev8001/">
+<span class="md-ellipsis">
+    
+  
+    smilpdev8001.sharpnet.sdac
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Installations/smilprpi0010/">
+<span class="md-ellipsis">
+    
+  
+    smilprpi0010.sharpnet.sdac
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Installations/smilprpi0011/">
+<span class="md-ellipsis">
+    
+  
+    smilprpi0011.sharpnet.sdac
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_4" id="__nav_4" type="checkbox"/>
+<label aria-expanded="false" class="md-nav__link" for="__nav_4" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    OLD
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="OLD" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    OLD
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/acl/">
+<span class="md-ellipsis">
+    
+  
+    ACL setup
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/disable_systemd_resolver/">
+<span class="md-ellipsis">
+    
+  
+    How to disable systemd-resolver under Ubuntu
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/docker_controller/">
+<span class="md-ellipsis">
+    
+  
+    Docker Controller Hub
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/iscsi-target/">
+<span class="md-ellipsis">
+    
+  
+    iSCSI target on Ubuntu
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/remove_snapd/">
+<span class="md-ellipsis">
+    
+  
+    Remove snapd from Ubuntu
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/ubuntu-zfs/">
+<span class="md-ellipsis">
+    
+  
+    ZFS on Ubuntu
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/ubuntu_zfs_root/">
+<span class="md-ellipsis">
+    
+  
+    Install Ubuntu 22.04 on ZFS root filesystem
+  
+
+    
+  </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../OLD/webdav_server/">
+<span class="md-ellipsis">
+    
+  
+    WebDAV server configuration
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" data-md-toggle="__nav_5" id="__nav_5" type="checkbox"/>
+<label aria-expanded="false" class="md-nav__link" for="__nav_5" tabindex="0">
+<span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+<span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-label="Troubleshooting" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+            
+  
+    Troubleshooting
+  
+
+          </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../Troubleshooting/step-ca/">
+<span class="md-ellipsis">
+    
+  
+    Step CA
+  
+
+    
+  </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#linux">
+<span class="md-ellipsis">
+      
+        Linux
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#windows">
+<span class="md-ellipsis">
+      
+        Windows
+      
+    </span>
+</a>
+<nav aria-label="Windows" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#requirements">
+<span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#install-and-configure-gpg4win">
+<span class="md-ellipsis">
+      
+        Install and configure GPG4Win
+      
+    </span>
+</a>
+<nav aria-label="Install and configure GPG4Win" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#start-gpg">
+<span class="md-ellipsis">
+      
+        Start GPG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#enable-ssh-support-for-gpg">
+<span class="md-ellipsis">
+      
+        Enable SSH support for GPG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#restart-gpg">
+<span class="md-ellipsis">
+      
+        Restart GPG
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#download-wsl-ssh-pageant">
+<span class="md-ellipsis">
+      
+        Download wsl-ssh-pageant
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#automate-gpg-and-wsl-ssh-pageant">
+<span class="md-ellipsis">
+      
+        Automate GPG and WSL-SSH-pageant
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#restart-and-test-the-ssh-agent-connectivity">
+<span class="md-ellipsis">
+      
+        Restart and Test the SSH Agent connectivity
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generating-keys-externally">
+<span class="md-ellipsis">
+      
+        Generating Keys externally
+      
+    </span>
+</a>
+<nav aria-label="Generating Keys externally" class="md-nav">
+<ul class="md-nav__list">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#generate-a-new-gpg-signing-key">
+<span class="md-ellipsis">
+      
+        Generate a new GPG Signing key
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#add-a-new-gpg-authentication-key">
+<span class="md-ellipsis">
+      
+        Add a new GPG Authentication key
+      
+    </span>
+</a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#create-a-backup-of-your-key">
+<span class="md-ellipsis">
+      
+        Create a backup of your key
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="#import-the-new-key-to-your-yubikey">
+<span class="md-ellipsis">
+      
+        Import the new key to your YubiKey
+      
+    </span>
+</a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="how-to-setup-gpg-and-ssh-agent">How to setup GPG and SSH agent<a class="headerlink" href="#how-to-setup-gpg-and-ssh-agent" title="Permanent link">¶</a></h1>
+<h2 id="linux">Linux<a class="headerlink" href="#linux" title="Permanent link">¶</a></h2>
+<p>Original documentation <a href="https://wiki.archlinux.org/title/GnuPG#gpg-agent">here</a></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-0-1" id="__codelineno-0-1" name="__codelineno-0-1"></a>gpg<span class="w"> </span>--full-gen-key<span class="w"> </span>--expert
+</code></pre></div>
+<h2 id="windows">Windows<a class="headerlink" href="#windows" title="Permanent link">¶</a></h2>
+<h3 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">¶</a></h3>
+<ul>
+<li>A compatible Yubikey</li>
+<li>A current version of GnuPG software</li>
+<li>Windows: <a href="https://www.gpg4win.org/download.html">GPG4Win</a></li>
+<li>macOS: <a href="https://gpgtools.org/gpgsuite.html">GPG Suite</a></li>
+<li>Linux: Pre-installed on most distributions</li>
+</ul>
+<h3 id="install-and-configure-gpg4win">Install and configure GPG4Win<a class="headerlink" href="#install-and-configure-gpg4win" title="Permanent link">¶</a></h3>
+<div class="admonition notice">
+<p class="admonition-title">Notice</p>
+<p>Before you begin make sure <a href="https://www.gpg4win.org/download.html">GPG4Win</a> is installed on your Windows box.</p>
+</div>
+<h4 id="start-gpg">Start GPG<a class="headerlink" href="#start-gpg" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-1-1" id="__codelineno-1-1" name="__codelineno-1-1"></a>gpg-connect-agent /bye
+</code></pre></div>
+<h4 id="enable-ssh-support-for-gpg">Enable SSH support for GPG<a class="headerlink" href="#enable-ssh-support-for-gpg" title="Permanent link">¶</a></h4>
+<div class="highlight"><span class="filename">%APPDATA%\gnupg\gpg-agent.conf</span><pre><span></span><code><a href="#__codelineno-2-1" id="__codelineno-2-1" name="__codelineno-2-1"></a><span class="na">enable-putty-support</span>
+<a href="#__codelineno-2-2" id="__codelineno-2-2" name="__codelineno-2-2"></a><span class="na">enable-ssh-support</span>
+<a href="#__codelineno-2-3" id="__codelineno-2-3" name="__codelineno-2-3"></a><span class="na">use-standard-socket</span>
+<a href="#__codelineno-2-4" id="__codelineno-2-4" name="__codelineno-2-4"></a><span class="na">default-cache-ttl 600</span>
+<a href="#__codelineno-2-5" id="__codelineno-2-5" name="__codelineno-2-5"></a><span class="na">max-cache-ttl 7200</span>
+</code></pre></div>
+<h4 id="restart-gpg">Restart GPG<a class="headerlink" href="#restart-gpg" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-3-1" id="__codelineno-3-1" name="__codelineno-3-1"></a>gpg-connect-agent<span class="w"> </span>killagent<span class="w"> </span>/bye
+<a href="#__codelineno-3-2" id="__codelineno-3-2" name="__codelineno-3-2"></a>gpg-connect-agent<span class="w"> </span>/bye
+</code></pre></div>
+<h4 id="download-wsl-ssh-pageant">Download wsl-ssh-pageant<a class="headerlink" href="#download-wsl-ssh-pageant" title="Permanent link">¶</a></h4>
+<p>Download <a href="https://github.com/benpye/wsl-ssh-pageant/releases/tag/20201121.2">WSL-SSH-pageant</a> and save it locally on your machine. This will be used to connet GPG with the SSH on Windows 10/11.</p>
+<h4 id="automate-gpg-and-wsl-ssh-pageant">Automate GPG and WSL-SSH-pageant<a class="headerlink" href="#automate-gpg-and-wsl-ssh-pageant" title="Permanent link">¶</a></h4>
+<p>Create a new <strong>Symlink</strong> in your Startup folder for the <strong>GPG Agent</strong> and the <strong>WSL-SSH-pageant</strong>.</p>
+<div class="highlight"><span class="filename">%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\GPG Connect.lnk</span><pre><span></span><code><a href="#__codelineno-4-1" id="__codelineno-4-1" name="__codelineno-4-1"></a>"C:\Program Files (x86)\GnuPG\bin\gpg-connect-agent.exe" /bye
+</code></pre></div>
+<div class="highlight"><span class="filename">%APPDATA%\Microsoft\Windows\Start Menu\Programs\Startup\wsl-ssh-pageant.lnk</span><pre><span></span><code><a href="#__codelineno-5-1" id="__codelineno-5-1" name="__codelineno-5-1"></a>C:\Tools\wsl-ssh-pagent\wsl-ssh-pageant-amd64-gui.exe -force -systray -verbose -winssh winssh-pageant
+</code></pre></div>
+<p>Finally set an environment varible for the SSH Agent Socket using <a href="https://phoenixnap.com/kb/windows-set-environment-variable#ftoc-heading-4">this guide</a></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-6-1" id="__codelineno-6-1" name="__codelineno-6-1"></a><span class="na">SSH_AUTH_SOCK</span><span class="o">=</span><span class="s">"\\.\pipe\winssh-pageant"</span>
+</code></pre></div>
+<p><a class="glightbox" data-desc-position="bottom" data-height="auto" data-width="100%" href="../images/ENV_SSH_AUTH_SOCK.png"><img alt="ENV_SSH_AUTH_SOCK" src="../images/ENV_SSH_AUTH_SOCK.png"/></a></p>
+<h4 id="restart-and-test-the-ssh-agent-connectivity">Restart and Test the SSH Agent connectivity<a class="headerlink" href="#restart-and-test-the-ssh-agent-connectivity" title="Permanent link">¶</a></h4>
+<h3 id="generating-keys-externally">Generating Keys externally<a class="headerlink" href="#generating-keys-externally" title="Permanent link">¶</a></h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>It is strongly recommended that you to generate keys on an offline system, such as a live Linux distribution like Ubuntu. Note that with live Linux, certain packages (like scdaemon) may need to be installed manually.</p>
+</div>
+<h4 id="generate-a-new-gpg-signing-key">Generate a new GPG Signing key<a class="headerlink" href="#generate-a-new-gpg-signing-key" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-7-1" id="__codelineno-7-1" name="__codelineno-7-1"></a>gpg<span class="w"> </span>--expert<span class="w"> </span>--full-gen-key
+</code></pre></div>
+<p>When prompted select to specify the key type choose <strong>9</strong> or <strong>1</strong> for RSA if you have a YubiKey NEO.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-8-1" id="__codelineno-8-1" name="__codelineno-8-1"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>what<span class="w"> </span>kind<span class="w"> </span>of<span class="w"> </span>key<span class="w"> </span>you<span class="w"> </span>want:
+<a href="#__codelineno-8-2" id="__codelineno-8-2" name="__codelineno-8-2"></a><span class="w">   </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>RSA<span class="w"> </span>and<span class="w"> </span>RSA
+<a href="#__codelineno-8-3" id="__codelineno-8-3" name="__codelineno-8-3"></a><span class="w">   </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>DSA<span class="w"> </span>and<span class="w"> </span>Elgamal
+<a href="#__codelineno-8-4" id="__codelineno-8-4" name="__codelineno-8-4"></a><span class="w">   </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>DSA<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-8-5" id="__codelineno-8-5" name="__codelineno-8-5"></a><span class="w">   </span><span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span>RSA<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-8-6" id="__codelineno-8-6" name="__codelineno-8-6"></a><span class="w">   </span><span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span>DSA<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>your<span class="w"> </span>own<span class="w"> </span>capabilities<span class="o">)</span>
+<a href="#__codelineno-8-7" id="__codelineno-8-7" name="__codelineno-8-7"></a><span class="w">   </span><span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span>RSA<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>your<span class="w"> </span>own<span class="w"> </span>capabilities<span class="o">)</span>
+<a href="#__codelineno-8-8" id="__codelineno-8-8" name="__codelineno-8-8"></a><span class="w">   </span><span class="o">(</span><span class="m">9</span><span class="o">)</span><span class="w"> </span>ECC<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>and<span class="w"> </span>encrypt<span class="o">)</span><span class="w"> </span>*default*
+<a href="#__codelineno-8-9" id="__codelineno-8-9" name="__codelineno-8-9"></a><span class="w">  </span><span class="o">(</span><span class="m">10</span><span class="o">)</span><span class="w"> </span>ECC<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-8-10" id="__codelineno-8-10" name="__codelineno-8-10"></a><span class="w">  </span><span class="o">(</span><span class="m">11</span><span class="o">)</span><span class="w"> </span>ECC<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>your<span class="w"> </span>own<span class="w"> </span>capabilities<span class="o">)</span>
+<a href="#__codelineno-8-11" id="__codelineno-8-11" name="__codelineno-8-11"></a><span class="w">  </span><span class="o">(</span><span class="m">13</span><span class="o">)</span><span class="w"> </span>Existing<span class="w"> </span>key
+<a href="#__codelineno-8-12" id="__codelineno-8-12" name="__codelineno-8-12"></a><span class="w">  </span><span class="o">(</span><span class="m">14</span><span class="o">)</span><span class="w"> </span>Existing<span class="w"> </span>key<span class="w"> </span>from<span class="w"> </span>card
+<a href="#__codelineno-8-13" id="__codelineno-8-13" name="__codelineno-8-13"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">9</span>
+</code></pre></div>
+<p>In the next step we are going to specify the "length" of the key. For a newer elliptic curve the recommended value is <strong>1 (Curve 25519)</strong>. For the RSA keys the length depends on the key type.</p>
+<ul>
+<li>For a YubiKey NEO, select <strong>2048</strong></li>
+<li>For a YubiKey 4 or 5, enter <strong>4096</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-9-1" id="__codelineno-9-1" name="__codelineno-9-1"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>which<span class="w"> </span>elliptic<span class="w"> </span>curve<span class="w"> </span>you<span class="w"> </span>want:
+<a href="#__codelineno-9-2" id="__codelineno-9-2" name="__codelineno-9-2"></a><span class="w">   </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>Curve<span class="w"> </span><span class="m">25519</span><span class="w"> </span>*default*
+<a href="#__codelineno-9-3" id="__codelineno-9-3" name="__codelineno-9-3"></a><span class="w">   </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>Curve<span class="w"> </span><span class="m">448</span>
+<a href="#__codelineno-9-4" id="__codelineno-9-4" name="__codelineno-9-4"></a><span class="w">   </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>NIST<span class="w"> </span>P-256
+<a href="#__codelineno-9-5" id="__codelineno-9-5" name="__codelineno-9-5"></a><span class="w">   </span><span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span>NIST<span class="w"> </span>P-384
+<a href="#__codelineno-9-6" id="__codelineno-9-6" name="__codelineno-9-6"></a><span class="w">   </span><span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span>NIST<span class="w"> </span>P-521
+<a href="#__codelineno-9-7" id="__codelineno-9-7" name="__codelineno-9-7"></a><span class="w">   </span><span class="o">(</span><span class="m">6</span><span class="o">)</span><span class="w"> </span>Brainpool<span class="w"> </span>P-256
+<a href="#__codelineno-9-8" id="__codelineno-9-8" name="__codelineno-9-8"></a><span class="w">   </span><span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span>Brainpool<span class="w"> </span>P-384
+<a href="#__codelineno-9-9" id="__codelineno-9-9" name="__codelineno-9-9"></a><span class="w">   </span><span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span>Brainpool<span class="w"> </span>P-512
+<a href="#__codelineno-9-10" id="__codelineno-9-10" name="__codelineno-9-10"></a><span class="w">   </span><span class="o">(</span><span class="m">9</span><span class="o">)</span><span class="w"> </span>secp256k1
+<a href="#__codelineno-9-11" id="__codelineno-9-11" name="__codelineno-9-11"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<p>The next question is about the expiration of our new key. The default value is <strong>unlimited</strong> however, for production use it is recommended to specify this value.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-10-1" id="__codelineno-10-1" name="__codelineno-10-1"></a>Please<span class="w"> </span>specify<span class="w"> </span>how<span class="w"> </span>long<span class="w"> </span>the<span class="w"> </span>key<span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>valid.
+<a href="#__codelineno-10-2" id="__codelineno-10-2" name="__codelineno-10-2"></a><span class="w">         </span><span class="nv">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>expire
+<a href="#__codelineno-10-3" id="__codelineno-10-3" name="__codelineno-10-3"></a><span class="w">      </span>&lt;n&gt;<span class="w">  </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>days
+<a href="#__codelineno-10-4" id="__codelineno-10-4" name="__codelineno-10-4"></a><span class="w">      </span>&lt;n&gt;w<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>weeks
+<a href="#__codelineno-10-5" id="__codelineno-10-5" name="__codelineno-10-5"></a><span class="w">      </span>&lt;n&gt;m<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>months
+<a href="#__codelineno-10-6" id="__codelineno-10-6" name="__codelineno-10-6"></a><span class="w">      </span>&lt;n&gt;y<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>years
+<a href="#__codelineno-10-7" id="__codelineno-10-7" name="__codelineno-10-7"></a>Key<span class="w"> </span>is<span class="w"> </span>valid<span class="w"> </span><span class="k">for</span>?<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span>2y
+</code></pre></div>
+<p>Next we have to enter our personal information</p>
+<ul>
+<li>Real Name <strong>Be sure to enter both your first and last name.</strong></li>
+<li>Email Address</li>
+<li>If desired, a Comment about this key</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-11-1" id="__codelineno-11-1" name="__codelineno-11-1"></a>GnuPG<span class="w"> </span>needs<span class="w"> </span>to<span class="w"> </span>construct<span class="w"> </span>a<span class="w"> </span>user<span class="w"> </span>ID<span class="w"> </span>to<span class="w"> </span>identify<span class="w"> </span>your<span class="w"> </span>key.
+<a href="#__codelineno-11-2" id="__codelineno-11-2" name="__codelineno-11-2"></a>
+<a href="#__codelineno-11-3" id="__codelineno-11-3" name="__codelineno-11-3"></a>Real<span class="w"> </span>name:<span class="w"> </span>Daniel<span class="w"> </span>H******
+<a href="#__codelineno-11-4" id="__codelineno-11-4" name="__codelineno-11-4"></a>Email<span class="w"> </span>address:<span class="w"> </span>daniel@h******.hu
+<a href="#__codelineno-11-5" id="__codelineno-11-5" name="__codelineno-11-5"></a>Comment:
+<a href="#__codelineno-11-6" id="__codelineno-11-6" name="__codelineno-11-6"></a>You<span class="w"> </span>selected<span class="w"> </span>this<span class="w"> </span>USER-ID:
+<a href="#__codelineno-11-7" id="__codelineno-11-7" name="__codelineno-11-7"></a><span class="w">    </span><span class="s2">"Daniel H****** &lt;daniel@h******.hu&gt;"</span>
+<a href="#__codelineno-11-8" id="__codelineno-11-8" name="__codelineno-11-8"></a>
+<a href="#__codelineno-11-9" id="__codelineno-11-9" name="__codelineno-11-9"></a>Change<span class="w"> </span><span class="o">(</span>N<span class="o">)</span>ame,<span class="w"> </span><span class="o">(</span>C<span class="o">)</span>omment,<span class="w"> </span><span class="o">(</span>E<span class="o">)</span>mail<span class="w"> </span>or<span class="w"> </span><span class="o">(</span>O<span class="o">)</span>kay/<span class="o">(</span>Q<span class="o">)</span>uit?
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Make sure to use a strong passphrase for the key and store it somewhere safe ( It is strongly recommended to use a password manager )</p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>While the key is being generated, move your mouse around or type on the keyboard to gain enough entropy.</p>
+</div>
+<p>When the key is been generated, you will see several messages displayed. Make a note of the key ID, that is displayed in the message such as "<code>gpg: key E353B******** marked as ultimately trusted</code>". The key ID in this case is <code>E353B********</code> and you will need this key ID to perform other operations.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-12-1" id="__codelineno-12-1" name="__codelineno-12-1"></a>gpg:<span class="w"> </span>revocation<span class="w"> </span>certificate<span class="w"> </span>stored<span class="w"> </span>as<span class="w"> </span><span class="s1">'C:\\Users\\dh***\\AppData\\Roaming\\gnupg\\openpgp-revocs.d\\E353B********.rev'</span>
+<a href="#__codelineno-12-2" id="__codelineno-12-2" name="__codelineno-12-2"></a>public<span class="w"> </span>and<span class="w"> </span>secret<span class="w"> </span>key<span class="w"> </span>created<span class="w"> </span>and<span class="w"> </span>signed.
+<a href="#__codelineno-12-3" id="__codelineno-12-3" name="__codelineno-12-3"></a>
+<a href="#__codelineno-12-4" id="__codelineno-12-4" name="__codelineno-12-4"></a>pub<span class="w">   </span>ed25519<span class="w"> </span><span class="m">2022</span>-12-29<span class="w"> </span><span class="o">[</span>SC<span class="o">]</span><span class="w"> </span><span class="o">[</span>expires:<span class="w"> </span><span class="m">2024</span>-12-28<span class="o">]</span>
+<a href="#__codelineno-12-5" id="__codelineno-12-5" name="__codelineno-12-5"></a><span class="w">      </span>E353B***********************************
+<a href="#__codelineno-12-6" id="__codelineno-12-6" name="__codelineno-12-6"></a>uid<span class="w">                      </span>Daniel<span class="w"> </span>H******<span class="w"> </span>&lt;daniel@h******.hu&gt;
+<a href="#__codelineno-12-7" id="__codelineno-12-7" name="__codelineno-12-7"></a>sub<span class="w">   </span>cv25519<span class="w"> </span><span class="m">2022</span>-12-29<span class="w"> </span><span class="o">[</span>E<span class="o">]</span><span class="w"> </span><span class="o">[</span>expires:<span class="w"> </span><span class="m">2024</span>-12-28<span class="o">]</span>
+</code></pre></div>
+<h4 id="add-a-new-gpg-authentication-key">Add a new GPG Authentication key<a class="headerlink" href="#add-a-new-gpg-authentication-key" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-13-1" id="__codelineno-13-1" name="__codelineno-13-1"></a>gpg<span class="w"> </span>--expert<span class="w"> </span>--edit-key<span class="w"> </span>E353B********<span class="w"> </span><span class="c1"># Use the key ID from the previous command</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-14-1" id="__codelineno-14-1" name="__codelineno-14-1"></a>addkey
+</code></pre></div>
+<p>As a first step we have to select the new key's type. The recommended is <code>(11) ECC (set your own capabilities)</code> for Elliptic Curve and <code>(8) RSA (set your own capabilities)</code> for RSA.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-15-1" id="__codelineno-15-1" name="__codelineno-15-1"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>what<span class="w"> </span>kind<span class="w"> </span>of<span class="w"> </span>key<span class="w"> </span>you<span class="w"> </span>want:
+<a href="#__codelineno-15-2" id="__codelineno-15-2" name="__codelineno-15-2"></a><span class="w">   </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>DSA<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-15-3" id="__codelineno-15-3" name="__codelineno-15-3"></a><span class="w">   </span><span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span>RSA<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-15-4" id="__codelineno-15-4" name="__codelineno-15-4"></a><span class="w">   </span><span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span>Elgamal<span class="w"> </span><span class="o">(</span>encrypt<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-15-5" id="__codelineno-15-5" name="__codelineno-15-5"></a><span class="w">   </span><span class="o">(</span><span class="m">6</span><span class="o">)</span><span class="w"> </span>RSA<span class="w"> </span><span class="o">(</span>encrypt<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-15-6" id="__codelineno-15-6" name="__codelineno-15-6"></a><span class="w">   </span><span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span>DSA<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>your<span class="w"> </span>own<span class="w"> </span>capabilities<span class="o">)</span>
+<a href="#__codelineno-15-7" id="__codelineno-15-7" name="__codelineno-15-7"></a><span class="w">   </span><span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span>RSA<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>your<span class="w"> </span>own<span class="w"> </span>capabilities<span class="o">)</span>
+<a href="#__codelineno-15-8" id="__codelineno-15-8" name="__codelineno-15-8"></a><span class="w">  </span><span class="o">(</span><span class="m">10</span><span class="o">)</span><span class="w"> </span>ECC<span class="w"> </span><span class="o">(</span>sign<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-15-9" id="__codelineno-15-9" name="__codelineno-15-9"></a><span class="w">  </span><span class="o">(</span><span class="m">11</span><span class="o">)</span><span class="w"> </span>ECC<span class="w"> </span><span class="o">(</span><span class="nb">set</span><span class="w"> </span>your<span class="w"> </span>own<span class="w"> </span>capabilities<span class="o">)</span>
+<a href="#__codelineno-15-10" id="__codelineno-15-10" name="__codelineno-15-10"></a><span class="w">  </span><span class="o">(</span><span class="m">12</span><span class="o">)</span><span class="w"> </span>ECC<span class="w"> </span><span class="o">(</span>encrypt<span class="w"> </span>only<span class="o">)</span>
+<a href="#__codelineno-15-11" id="__codelineno-15-11" name="__codelineno-15-11"></a><span class="w">  </span><span class="o">(</span><span class="m">13</span><span class="o">)</span><span class="w"> </span>Existing<span class="w"> </span>key
+<a href="#__codelineno-15-12" id="__codelineno-15-12" name="__codelineno-15-12"></a><span class="w">  </span><span class="o">(</span><span class="m">14</span><span class="o">)</span><span class="w"> </span>Existing<span class="w"> </span>key<span class="w"> </span>from<span class="w"> </span>card
+<a href="#__codelineno-15-13" id="__codelineno-15-13" name="__codelineno-15-13"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">11</span>
+</code></pre></div>
+<p>During the next step we have to select the key usage type. By default the allowed actions are Signing/Encrypt or Signing. Make sure to toggle off both Signing and Encrypt and enable Authenticate.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-16-1" id="__codelineno-16-1" name="__codelineno-16-1"></a>Possible<span class="w"> </span>actions<span class="w"> </span><span class="k">for</span><span class="w"> </span>this<span class="w"> </span>ECC<span class="w"> </span>key:<span class="w"> </span>Sign<span class="w"> </span>Authenticate
+<a href="#__codelineno-16-2" id="__codelineno-16-2" name="__codelineno-16-2"></a>Current<span class="w"> </span>allowed<span class="w"> </span>actions:<span class="w"> </span>Sign
+<a href="#__codelineno-16-3" id="__codelineno-16-3" name="__codelineno-16-3"></a>
+<a href="#__codelineno-16-4" id="__codelineno-16-4" name="__codelineno-16-4"></a><span class="w">   </span><span class="o">(</span>S<span class="o">)</span><span class="w"> </span>Toggle<span class="w"> </span>the<span class="w"> </span>sign<span class="w"> </span>capability
+<a href="#__codelineno-16-5" id="__codelineno-16-5" name="__codelineno-16-5"></a><span class="w">   </span><span class="o">(</span>A<span class="o">)</span><span class="w"> </span>Toggle<span class="w"> </span>the<span class="w"> </span>authenticate<span class="w"> </span>capability
+<a href="#__codelineno-16-6" id="__codelineno-16-6" name="__codelineno-16-6"></a><span class="w">   </span><span class="o">(</span>Q<span class="o">)</span><span class="w"> </span>Finished
+<a href="#__codelineno-16-7" id="__codelineno-16-7" name="__codelineno-16-7"></a>
+<a href="#__codelineno-16-8" id="__codelineno-16-8" name="__codelineno-16-8"></a>Your<span class="w"> </span>selection?<span class="w"> </span>s
+<a href="#__codelineno-16-9" id="__codelineno-16-9" name="__codelineno-16-9"></a>
+<a href="#__codelineno-16-10" id="__codelineno-16-10" name="__codelineno-16-10"></a>Possible<span class="w"> </span>actions<span class="w"> </span><span class="k">for</span><span class="w"> </span>this<span class="w"> </span>ECC<span class="w"> </span>key:<span class="w"> </span>Sign<span class="w"> </span>Authenticate
+<a href="#__codelineno-16-11" id="__codelineno-16-11" name="__codelineno-16-11"></a>Current<span class="w"> </span>allowed<span class="w"> </span>actions:
+<a href="#__codelineno-16-12" id="__codelineno-16-12" name="__codelineno-16-12"></a>
+<a href="#__codelineno-16-13" id="__codelineno-16-13" name="__codelineno-16-13"></a><span class="w">   </span><span class="o">(</span>S<span class="o">)</span><span class="w"> </span>Toggle<span class="w"> </span>the<span class="w"> </span>sign<span class="w"> </span>capability
+<a href="#__codelineno-16-14" id="__codelineno-16-14" name="__codelineno-16-14"></a><span class="w">   </span><span class="o">(</span>A<span class="o">)</span><span class="w"> </span>Toggle<span class="w"> </span>the<span class="w"> </span>authenticate<span class="w"> </span>capability
+<a href="#__codelineno-16-15" id="__codelineno-16-15" name="__codelineno-16-15"></a><span class="w">   </span><span class="o">(</span>Q<span class="o">)</span><span class="w"> </span>Finished
+<a href="#__codelineno-16-16" id="__codelineno-16-16" name="__codelineno-16-16"></a>
+<a href="#__codelineno-16-17" id="__codelineno-16-17" name="__codelineno-16-17"></a>Your<span class="w"> </span>selection?<span class="w"> </span>a
+<a href="#__codelineno-16-18" id="__codelineno-16-18" name="__codelineno-16-18"></a>
+<a href="#__codelineno-16-19" id="__codelineno-16-19" name="__codelineno-16-19"></a>Possible<span class="w"> </span>actions<span class="w"> </span><span class="k">for</span><span class="w"> </span>this<span class="w"> </span>ECC<span class="w"> </span>key:<span class="w"> </span>Sign<span class="w"> </span>Authenticate
+<a href="#__codelineno-16-20" id="__codelineno-16-20" name="__codelineno-16-20"></a>Current<span class="w"> </span>allowed<span class="w"> </span>actions:<span class="w"> </span>Authenticate
+<a href="#__codelineno-16-21" id="__codelineno-16-21" name="__codelineno-16-21"></a>
+<a href="#__codelineno-16-22" id="__codelineno-16-22" name="__codelineno-16-22"></a><span class="w">   </span><span class="o">(</span>S<span class="o">)</span><span class="w"> </span>Toggle<span class="w"> </span>the<span class="w"> </span>sign<span class="w"> </span>capability
+<a href="#__codelineno-16-23" id="__codelineno-16-23" name="__codelineno-16-23"></a><span class="w">   </span><span class="o">(</span>A<span class="o">)</span><span class="w"> </span>Toggle<span class="w"> </span>the<span class="w"> </span>authenticate<span class="w"> </span>capability
+<a href="#__codelineno-16-24" id="__codelineno-16-24" name="__codelineno-16-24"></a><span class="w">   </span><span class="o">(</span>Q<span class="o">)</span><span class="w"> </span>Finished
+</code></pre></div>
+<p>In the next step we are going to specify the "length" of the key. For a newer elliptic curve the recommended value is <strong>1 (Curve 25519)</strong>. For the RSA keys the length depends on the key type.</p>
+<ul>
+<li>For a YubiKey NEO, select <strong>2048</strong></li>
+<li>For a YubiKey 4 or 5, enter <strong>4096</strong></li>
+</ul>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-17-1" id="__codelineno-17-1" name="__codelineno-17-1"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>which<span class="w"> </span>elliptic<span class="w"> </span>curve<span class="w"> </span>you<span class="w"> </span>want:
+<a href="#__codelineno-17-2" id="__codelineno-17-2" name="__codelineno-17-2"></a><span class="w">   </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>Curve<span class="w"> </span><span class="m">25519</span><span class="w"> </span>*default*
+<a href="#__codelineno-17-3" id="__codelineno-17-3" name="__codelineno-17-3"></a><span class="w">   </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>Curve<span class="w"> </span><span class="m">448</span>
+<a href="#__codelineno-17-4" id="__codelineno-17-4" name="__codelineno-17-4"></a><span class="w">   </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>NIST<span class="w"> </span>P-256
+<a href="#__codelineno-17-5" id="__codelineno-17-5" name="__codelineno-17-5"></a><span class="w">   </span><span class="o">(</span><span class="m">4</span><span class="o">)</span><span class="w"> </span>NIST<span class="w"> </span>P-384
+<a href="#__codelineno-17-6" id="__codelineno-17-6" name="__codelineno-17-6"></a><span class="w">   </span><span class="o">(</span><span class="m">5</span><span class="o">)</span><span class="w"> </span>NIST<span class="w"> </span>P-521
+<a href="#__codelineno-17-7" id="__codelineno-17-7" name="__codelineno-17-7"></a><span class="w">   </span><span class="o">(</span><span class="m">6</span><span class="o">)</span><span class="w"> </span>Brainpool<span class="w"> </span>P-256
+<a href="#__codelineno-17-8" id="__codelineno-17-8" name="__codelineno-17-8"></a><span class="w">   </span><span class="o">(</span><span class="m">7</span><span class="o">)</span><span class="w"> </span>Brainpool<span class="w"> </span>P-384
+<a href="#__codelineno-17-9" id="__codelineno-17-9" name="__codelineno-17-9"></a><span class="w">   </span><span class="o">(</span><span class="m">8</span><span class="o">)</span><span class="w"> </span>Brainpool<span class="w"> </span>P-512
+<a href="#__codelineno-17-10" id="__codelineno-17-10" name="__codelineno-17-10"></a><span class="w">   </span><span class="o">(</span><span class="m">9</span><span class="o">)</span><span class="w"> </span>secp256k1
+<a href="#__codelineno-17-11" id="__codelineno-17-11" name="__codelineno-17-11"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<p>In the last step we have to choose an expiration date for this key as well.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-18-1" id="__codelineno-18-1" name="__codelineno-18-1"></a>Please<span class="w"> </span>specify<span class="w"> </span>how<span class="w"> </span>long<span class="w"> </span>the<span class="w"> </span>key<span class="w"> </span>should<span class="w"> </span>be<span class="w"> </span>valid.
+<a href="#__codelineno-18-2" id="__codelineno-18-2" name="__codelineno-18-2"></a><span class="w">         </span><span class="nv">0</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>does<span class="w"> </span>not<span class="w"> </span>expire
+<a href="#__codelineno-18-3" id="__codelineno-18-3" name="__codelineno-18-3"></a><span class="w">      </span>&lt;n&gt;<span class="w">  </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>days
+<a href="#__codelineno-18-4" id="__codelineno-18-4" name="__codelineno-18-4"></a><span class="w">      </span>&lt;n&gt;w<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>weeks
+<a href="#__codelineno-18-5" id="__codelineno-18-5" name="__codelineno-18-5"></a><span class="w">      </span>&lt;n&gt;m<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>months
+<a href="#__codelineno-18-6" id="__codelineno-18-6" name="__codelineno-18-6"></a><span class="w">      </span>&lt;n&gt;y<span class="w"> </span><span class="o">=</span><span class="w"> </span>key<span class="w"> </span>expires<span class="w"> </span><span class="k">in</span><span class="w"> </span>n<span class="w"> </span>years
+<a href="#__codelineno-18-7" id="__codelineno-18-7" name="__codelineno-18-7"></a>Key<span class="w"> </span>is<span class="w"> </span>valid<span class="w"> </span><span class="k">for</span>?<span class="w"> </span><span class="o">(</span><span class="m">0</span><span class="o">)</span><span class="w"> </span>2y
+<a href="#__codelineno-18-8" id="__codelineno-18-8" name="__codelineno-18-8"></a>Key<span class="w"> </span>expires<span class="w"> </span>at<span class="w"> </span><span class="m">28</span>-Dec-24<span class="w"> </span><span class="m">19</span>:43:24<span class="w"> </span>Central<span class="w"> </span>Europe<span class="w"> </span>Standard<span class="w"> </span>Time
+</code></pre></div>
+<p>Confirm the creation of the new key and enter the passphrase from the previous step.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-19-1" id="__codelineno-19-1" name="__codelineno-19-1"></a>Is<span class="w"> </span>this<span class="w"> </span>correct?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>y
+<a href="#__codelineno-19-2" id="__codelineno-19-2" name="__codelineno-19-2"></a>Really<span class="w"> </span>create?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>y
+</code></pre></div>
+<p>Once they new key is added we should see it in the new details</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-20-1" id="__codelineno-20-1" name="__codelineno-20-1"></a>sec<span class="w">  </span>ed25519/EC79************
+<a href="#__codelineno-20-2" id="__codelineno-20-2" name="__codelineno-20-2"></a><span class="w">     </span>created:<span class="w"> </span><span class="m">2022</span>-12-29<span class="w">  </span>expires:<span class="w"> </span><span class="m">2024</span>-12-28<span class="w">  </span>usage:<span class="w"> </span>SC
+<a href="#__codelineno-20-3" id="__codelineno-20-3" name="__codelineno-20-3"></a><span class="w">     </span>trust:<span class="w"> </span>ultimate<span class="w">      </span>validity:<span class="w"> </span>ultimate
+<a href="#__codelineno-20-4" id="__codelineno-20-4" name="__codelineno-20-4"></a>ssb<span class="w">  </span>cv25519/75B1************
+<a href="#__codelineno-20-5" id="__codelineno-20-5" name="__codelineno-20-5"></a><span class="w">     </span>created:<span class="w"> </span><span class="m">2022</span>-12-29<span class="w">  </span>expires:<span class="w"> </span><span class="m">2024</span>-12-28<span class="w">  </span>usage:<span class="w"> </span>E
+<a href="#__codelineno-20-6" id="__codelineno-20-6" name="__codelineno-20-6"></a>ssb<span class="w">  </span>ed25519/6C87************
+<a href="#__codelineno-20-7" id="__codelineno-20-7" name="__codelineno-20-7"></a><span class="w">     </span>created:<span class="w"> </span><span class="m">2022</span>-12-29<span class="w">  </span>expires:<span class="w"> </span><span class="m">2024</span>-12-28<span class="w">  </span>usage:<span class="w"> </span>A
+<a href="#__codelineno-20-8" id="__codelineno-20-8" name="__codelineno-20-8"></a><span class="o">[</span>ultimate<span class="o">]</span><span class="w"> </span><span class="o">(</span><span class="m">1</span><span class="o">)</span>.<span class="w"> </span>Daniel<span class="w"> </span>H**********<span class="w"> </span>&lt;daniel@h**********.hu&gt;
+</code></pre></div>
+<h4 id="create-a-backup-of-your-key">Create a backup of your key<a class="headerlink" href="#create-a-backup-of-your-key" title="Permanent link">¶</a></h4>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-21-1" id="__codelineno-21-1" name="__codelineno-21-1"></a>gpg<span class="w"> </span>--export-secret-key<span class="w"> </span>--armor<span class="w"> </span>E353B********<span class="w"> </span><span class="c1"># Use the key ID from the previous command</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Store the text output from the command in a safe place ( e.g. Save the text in password managers, save the text on a USB storage device ).</p>
+</div>
+<h3 id="import-the-new-key-to-your-yubikey">Import the new key to your YubiKey<a class="headerlink" href="#import-the-new-key-to-your-yubikey" title="Permanent link">¶</a></h3>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-22-1" id="__codelineno-22-1" name="__codelineno-22-1"></a>gpg<span class="w"> </span>--expert<span class="w"> </span>--edit-key<span class="w"> </span>E353B********<span class="w"> </span><span class="c1"># Use the key ID from the previous command</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-23-1" id="__codelineno-23-1" name="__codelineno-23-1"></a>keytocard
+</code></pre></div>
+<p>Select the signing key first and provide your passphare and Admin PIN to move the key to the card.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-24-1" id="__codelineno-24-1" name="__codelineno-24-1"></a>Really<span class="w"> </span>move<span class="w"> </span>the<span class="w"> </span>primary<span class="w"> </span>key?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>y
+<a href="#__codelineno-24-2" id="__codelineno-24-2" name="__codelineno-24-2"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>where<span class="w"> </span>to<span class="w"> </span>store<span class="w"> </span>the<span class="w"> </span>key:
+<a href="#__codelineno-24-3" id="__codelineno-24-3" name="__codelineno-24-3"></a><span class="w">   </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>Signature<span class="w"> </span>key
+<a href="#__codelineno-24-4" id="__codelineno-24-4" name="__codelineno-24-4"></a><span class="w">   </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>Authentication<span class="w"> </span>key
+<a href="#__codelineno-24-5" id="__codelineno-24-5" name="__codelineno-24-5"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">1</span>
+</code></pre></div>
+<p>Repeat the same step for the authentication key</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-25-1" id="__codelineno-25-1" name="__codelineno-25-1"></a>gpg&gt;<span class="w"> </span>keytocard
+<a href="#__codelineno-25-2" id="__codelineno-25-2" name="__codelineno-25-2"></a>Really<span class="w"> </span>move<span class="w"> </span>the<span class="w"> </span>primary<span class="w"> </span>key?<span class="w"> </span><span class="o">(</span>y/N<span class="o">)</span><span class="w"> </span>y
+<a href="#__codelineno-25-3" id="__codelineno-25-3" name="__codelineno-25-3"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>where<span class="w"> </span>to<span class="w"> </span>store<span class="w"> </span>the<span class="w"> </span>key:
+<a href="#__codelineno-25-4" id="__codelineno-25-4" name="__codelineno-25-4"></a><span class="w">   </span><span class="o">(</span><span class="m">1</span><span class="o">)</span><span class="w"> </span>Signature<span class="w"> </span>key
+<a href="#__codelineno-25-5" id="__codelineno-25-5" name="__codelineno-25-5"></a><span class="w">   </span><span class="o">(</span><span class="m">3</span><span class="o">)</span><span class="w"> </span>Authentication<span class="w"> </span>key
+<a href="#__codelineno-25-6" id="__codelineno-25-6" name="__codelineno-25-6"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">3</span>
+</code></pre></div>
+<p>Once both the Signing and the Authentication key is moved to the YubiKey switch to key slot #2 and move the Encryption key as well.</p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-26-1" id="__codelineno-26-1" name="__codelineno-26-1"></a>key<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-27-1" id="__codelineno-27-1" name="__codelineno-27-1"></a>gpg&gt;<span class="w"> </span>keytocard
+<a href="#__codelineno-27-2" id="__codelineno-27-2" name="__codelineno-27-2"></a>Please<span class="w"> </span><span class="k">select</span><span class="w"> </span>where<span class="w"> </span>to<span class="w"> </span>store<span class="w"> </span>the<span class="w"> </span>key:
+<a href="#__codelineno-27-3" id="__codelineno-27-3" name="__codelineno-27-3"></a><span class="w">   </span><span class="o">(</span><span class="m">2</span><span class="o">)</span><span class="w"> </span>Encryption<span class="w"> </span>key
+<a href="#__codelineno-27-4" id="__codelineno-27-4" name="__codelineno-27-4"></a>Your<span class="w"> </span>selection?<span class="w"> </span><span class="m">2</span>
+</code></pre></div>
+<p>Finally execute <code>save</code> to exit gpg and finalize your changes. You can verify the changes with <code>gpg --card-status</code></p>
+<div class="highlight"><pre><span></span><code><a href="#__codelineno-28-1" id="__codelineno-28-1" name="__codelineno-28-1"></a>gpg<span class="w"> </span>--card-status
+</code></pre></div>
+<h1 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h1>
+<ul>
+<li><a href="https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP">https://support.yubico.com/hc/en-us/articles/360013790259-Using-Your-YubiKey-with-OpenPGP</a></li>
+<li><a href="https://developers.yubico.com/PGP/SSH_authentication/Windows.html">https://developers.yubico.com/PGP/SSH_authentication/Windows.html</a></li>
+<li><a href="https://www.antirandom.com/blog/2020/03/24/ssh-on-windows-with-private-key-on-yubikey/">https://www.antirandom.com/blog/2020/03/24/ssh-on-windows-with-private-key-on-yubikey/</a></li>
+</ul>
+<aside class="md-source-file">
+<span class="md-source-file__fact">
+<span class="md-icon" title="Last update">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 13.1c-.1 0-.3.1-.4.2l-1 1 2.1 2.1 1-1c.2-.2.2-.6 0-.8l-1.3-1.3c-.1-.1-.2-.2-.4-.2m-1.9 1.8-6.1 6V23h2.1l6.1-6.1-2.1-2M12.5 7v5.2l4 2.4-1 1L11 13V7h1.5M11 21.9c-5.1-.5-9-4.8-9-9.9C2 6.5 6.5 2 12 2c5.3 0 9.6 4.1 10 9.3-.3-.1-.6-.2-1-.2s-.7.1-1 .2C19.6 7.2 16.2 4 12 4c-4.4 0-8 3.6-8 8 0 4.1 3.1 7.5 7.1 7.9l-.1.2v1.8Z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 18, 2023</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Created">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.47 15.08 11 13V7h1.5v5.25l3.08 1.83c-.41.28-.79.62-1.11 1m-1.39 4.84c-.36.05-.71.08-1.08.08-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8c0 .37-.03.72-.08 1.08.69.1 1.33.32 1.92.64.1-.56.16-1.13.16-1.72 0-5.5-4.5-10-10-10S2 6.5 2 12s4.47 10 10 10c.59 0 1.16-.06 1.72-.16-.32-.59-.54-1.23-.64-1.92M18 15v3h-3v2h3v3h2v-3h3v-2h-3v-3h-2Z"></path></svg>
+</span>
+<span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date">January 18, 2023</span>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Contributors">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 4a4 4 0 0 1 4 4 4 4 0 0 1-4 4 4 4 0 0 1-4-4 4 4 0 0 1 4-4m0 10c4.42 0 8 1.79 8 4v2H4v-2c0-2.21 3.58-4 8-4Z"></path></svg>
+</span>
+<nav>
+<a href="mailto:daniel@hagyarossy.hu">Dániel Hagyárossy</a>
+</nav>
+</span>
+<span class="md-source-file__fact">
+<span class="md-icon" title="Contributors">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2Z"></path></svg>
+</span>
+<span>GitHub</span>
+<nav>
+<a class="md-author" href="https://github.com/atraides" title="@atraides">
+<img alt="atraides" src="https://avatars.githubusercontent.com/u/510412?size=72"/>
+</a>
+</nav>
+</span>
+</aside>
+</article>
+</div>
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "..", "features": ["header.autohide", "content.code.copy"], "search": "../assets/javascripts/workers/search.f236eb64.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../assets/javascripts/bundle.b5a861c9.min.js"></script>
+<script src="/static/js/asciinema-player.min.js"></script>
+<script>document$.subscribe(() => {const lightbox = GLightbox({"touchNavigation": true, "loop": false, "zoomable": true, "draggable": true, "openEffect": "zoom", "closeEffect": "zoom", "slideEffect": "slide"});})</script></body>
+</html>
